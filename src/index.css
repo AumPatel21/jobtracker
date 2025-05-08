@@ -1,0 +1,18 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+
+  /* background-image:
+    radial-gradient(circle 1200px at 10.3% 4.6%, rgba(0, 0, 0, 1) 0%, rgba(87, 124, 253, 0.89) 100.7%); */
+  background-image:
+    radial-gradient(circle at 10.3% 4.6%, rgba(0, 0, 0, 1) 0%, transparent 100%),
+    radial-gradient(circle at 90% 95%, rgba(0, 0, 0, 1) 0%, transparent 50%),
+    radial-gradient(circle 1200px at 10.3% 4.6%, rgba(87, 124, 253, 0.89) 0%, rgba(87, 124, 253, 0.89) 100.7%);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
