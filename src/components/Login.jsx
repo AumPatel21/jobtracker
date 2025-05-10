@@ -1,8 +1,29 @@
 import React from "react";
 import { FcGoogle } from "react-icons/fc";
-
+import { auth, googleProvider } from "../services/firebase";
+import { signInWithPopup } from "firebase/auth";
 
 const Login = ({ onSwitchToSignup, OnSwitchToForgotPassword }) => {
+    const handleGoogleSignIn = async () => {
+        // Handle Google sign-in logic here
+        console.log("Google sign-in clicked");
+        try {
+            await signInWithPopup(auth, provider);
+            const user = result.user;
+            const userRef = doc(db, "users", user.uid);
+            const userDoc = await getDoc(userRef);
+            if (!userDoc.exists()) {
+                await setDoc(userRef, {
+                    email: user.email,
+                    name: user.displayName,
+                    createdAt: new Date(),
+                });
+            }
+            console.log("User signed in:", user);
+        } catch (error) {
+            console.error("Error signing in with Google:", error);
+        }
+    }
     return (
         <div className="h-full flex justify-center items-center">
             <form className="w-[340px] md:w-[400px] flex flex-col justify-center items-center text-white bg-black/30 p-10 rounded-xl select-none">
@@ -31,10 +52,13 @@ const Login = ({ onSwitchToSignup, OnSwitchToForgotPassword }) => {
 
                 {/* Sign in with google btn */}
                 <button
+                    onClick={handleGoogleSignIn}
                     className="w-full flex items-center justify-center px-4 py-3 text-sm font-semibold bg-white text-black rounded-md transition-transform duration-300 ease-in-out hover:scale-105 border"
                 >
                     <FcGoogle className="mr-2 text-lg" /> Sign in with Google
                 </button>
+
+
                 <p className="mt-4 text-xs">
                     Don't have an account?
                     <a onClick={

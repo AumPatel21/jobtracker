@@ -12,9 +12,7 @@ const Navbar = () => {
             {/* links */}
             <div className="flex-1">
                 <ul className="flex justify-end space-x-4">
-                    <li><a href="#home" className="text-blue-500">Home</a></li>
                     <li><a href="#about" className="text-blue-500">About</a></li>
-                    <li><a href="#services" className="text-blue-500">Services</a></li>
                     <li><a href="#contact" className="text-blue-500">Contact</a></li>
                 </ul>
             </div>
