@@ -39,9 +39,61 @@ const db = getFirestore(app);
 const googleProvider = new GoogleAuthProvider();
 
 
+/**
+ * Create or update a user's document in Firestore.
+ * @param {string} uid - Firebase Auth user UID
+ * @param {object} data - Additional user data to store
+ */
+
+const handleGoogleLogin = async () => {
+    console.log("Google sign-in clicked");
+    try {
+        const result = await signInWithPopup(auth, googleProvider);
+        const user = result.user;
+        // check if the user already exists in firestore
+        const userRef = doc(db, "users", user.uid);
+        const userDoc = await getDoc(userRef);
+        // if not, add them to firestore
+        if (!userDoc.exists()) {
+            await setDoc(userRef, {
+                email: user.email,
+                name: user.displayName,
+                createdAt: new Date(),
+            });
+        }
+        console.log("User", user.email, "signed in successfully!");
+    } catch (error) {
+        console.error("Error signing in with Google:", error);
+    }
+}
+
+
+const handleEmailAndPasswordLogin = async (email, password) => {
+    console.log("Login button clicked");
+
+    try {
+        await signInWithEmailAndPassword(auth, email, password)
+        console.log("User", email, "successfully logged in!")
+    } catch (error) {
+        console.error("Error signing in with Google:", error);
+    }
+}
+
 export {
     app,
     auth,
     db,
     googleProvider,
+    signInWithPopup,
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    sendPasswordResetEmail,
+    handleGoogleLogin,
+    handleEmailAndPasswordLogin,
+    doc,
+    setDoc,
+    getDoc,
+    getFirestore,
+    getAuth,
+    GoogleAuthProvider,
 };
